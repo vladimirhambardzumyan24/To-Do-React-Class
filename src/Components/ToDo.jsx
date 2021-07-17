@@ -34,6 +34,7 @@ class ToDo extends React.Component {
         ],
       }));
     }
+    this.setState({textInput:""})
   };
 
   handleDelete = (item) => {
