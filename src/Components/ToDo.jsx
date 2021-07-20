@@ -2,6 +2,8 @@ import React from "react";
 import FormToDo from "./FormToDo";
 import ToDoCart from "./ToDoCart";
 import ToDoClear from "./ToDoClear";
+import ToDoSave from "../helper/LocalStorage";
+import { getToDo } from "../helper/LocalStorage";
 
 const idGenerator = () => {
   let id = 0;
@@ -19,44 +21,7 @@ class ToDo extends React.Component {
     this.state = {
       allCheck: false,
       textInput: "",
-
-      items: [
-        {
-          id: getRandomId(),
-          removeText: "hideRemove",
-          textValue: "Java Script",
-          inpText:"inpTextShow",
-          isChecked: false,
-        },
-        {
-          id: getRandomId(),
-          removeText: "hideRemove",
-          textValue: "Node JS",
-          inpText:"inpTextShow",
-          isChecked: false,
-        },
-        {
-          id: getRandomId(),
-          removeText: "hideRemove",
-          textValue: "React",
-          inpText:"inpTextShow",
-          isChecked: false,
-        },
-        {
-          id: getRandomId(),
-          removeText: "hideRemove",
-          textValue: "Angular",
-          inpText:"inpTextShow",
-          isChecked: false,
-        },
-        {
-          id: getRandomId(),
-          removeText: "hideRemove",
-          textValue: "Vue JS",
-          inpText:"inpTextShow",
-          isChecked: false,
-        },
-      ],
+      items: getToDo() === null ? [] : getToDo(),
     };
   }
   handleGiv = (event) => {
@@ -66,21 +31,26 @@ class ToDo extends React.Component {
   handleAdd = (event) => {
     event.preventDefault();
     if (this.state.textInput !== "") {
-      this.setState((pastState) => ({
-        items: [
-          ...pastState.items,
-          {
-            id: getRandomId(),
-            removeText: "hideRemove",
-            textValue: pastState.textInput,
-            inpText:"inpTextShow",
-            isChecked: false,
-          },
-        ],
-      }));
+      this.setState((pastState) => {
+        return {
+          items: [
+            ...pastState.items,
+            {
+              id: getRandomId(),
+              removeText: "hideRemove",
+              textValue: pastState.textInput,
+              inpText: "inpTextShow",
+              isChecked: false,
+            },
+          ],
+        };
+      });
     }
     this.setState({ textInput: "" });
   };
+  componentDidUpdate() {
+    ToDoSave(this.state.items);
+  }
 
   handleDelete = (item) => {
     this.setState((pastState) => ({
@@ -100,10 +70,9 @@ class ToDo extends React.Component {
   };
 
   handleCheckedClear = () => {
-    this.setState(
-      (pastState) =>
-        (pastState.items = pastState.items.filter((item) => !item.isChecked))
-    );
+    this.setState((pastState) => ({
+      items: pastState.items.filter((item) => !item.isChecked),
+    }));
   };
 
   handelCheckedAll = () => {
@@ -114,7 +83,7 @@ class ToDo extends React.Component {
           id: item.id,
           removeText: "hideRemove",
           textValue: item.textValue,
-          inpText:"inpTextShow",
+          inpText: "inpTextShow",
           isChecked: true,
         };
       }),
@@ -129,7 +98,7 @@ class ToDo extends React.Component {
           id: item.id,
           removeText: "hideRemove",
           textValue: item.textValue,
-          inpText:"inpTextShow",
+          inpText: "inpTextShow",
           isChecked: false,
         };
       }),
@@ -144,7 +113,7 @@ class ToDo extends React.Component {
             id: elm.id,
             removeText: "showRemove",
             textValue: item.textValue,
-            inpText:"inpTextHidden",
+            inpText: "inpTextHidden",
             isChecked: false,
           };
         }
@@ -153,7 +122,7 @@ class ToDo extends React.Component {
     }));
   };
 
-  onChangeToDo=(newToDo)=>{
+  onChangeToDo = (newToDo) => {
     this.setState((pastState) => ({
       items: pastState.items.map((elm) => {
         if (elm.id === newToDo.id) {
@@ -161,16 +130,16 @@ class ToDo extends React.Component {
             id: newToDo.id,
             removeText: "showRemove",
             textValue: newToDo.textValue,
-            inpText:"inpTextHidden",
+            inpText: "inpTextHidden",
             isChecked: false,
           };
         }
         return elm;
       }),
     }));
-  }
+  };
 
-  onClickHide=(item)=>{
+  onClickHide = (item) => {
     this.setState((pastState) => ({
       items: pastState.items.map((elm) => {
         if (elm.id === item.id) {
@@ -178,14 +147,14 @@ class ToDo extends React.Component {
             id: elm.id,
             removeText: "hideRemove",
             textValue: item.textValue,
-            inpText:"inpTextShow",
+            inpText: "inpTextShow",
             isChecked: false,
           };
         }
         return elm;
       }),
     }));
-  }
+  };
 
   render() {
     return (
