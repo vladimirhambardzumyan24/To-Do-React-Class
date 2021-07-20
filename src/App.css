@@ -4,7 +4,7 @@
   margin-top: 50px;
 }
 
-.todo{
+.todo {
   font-size: 50px;
   margin-left: 40%;
   color: rgb(187, 186, 186);
@@ -48,44 +48,89 @@
   width: 40px;
 }
 
+.check {
+  position: absolute;
+  border: 1px solid rgb(187, 186, 186);
+  background-color: rgb(238, 228, 228);
+  border-radius: 8px;
+  height: 25px;
+  margin-left: 20px;
+}
+
 .checkbox {
   margin-left: 20px;
   margin-right: 20px;
 }
 
-.checkedCount{
+.checkedCount {
   margin-left: 20px;
 }
 
-.footer{
+.footer {
   height: 30px;
   padding-top: 10px;
 }
 
-.clearChecked{
+.clearChecked {
   position: absolute;
   right: 20px;
   border: 1px solid rgb(187, 186, 186);
   background-color: rgb(238, 228, 228);
-  border-radius: 8px; 
+  border-radius: 8px;
   height: 25px;
 }
 
-.itemTodo:hover{
+.showRemove {
+  display: inline-block;
+  margin-top: -20px;
+  background-color: rgb(236, 232, 232);
+  margin-right: 20px;
+}
+
+.hideRemove {
+  display: none;
+}
+
+.inpTextShow {
+  display: inline-block;
+  margin-top: -21px;
+}
+
+.changBtn {
+  margin-left: 210px;
+  border: 1px solid rgb(187, 186, 186);
+  background-color: rgb(238, 228, 228);
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.changeInput{
+  border: none;
+}
+
+.inpTextHidden {
+  display: none;
+}
+.itemTodo:hover {
   background-color: rgb(219, 216, 216);
 }
 
-.clearChecked:hover{
+.clearChecked:hover {
   cursor: pointer;
   background-color: #b4b4b4;
 }
 
-.deleteItem:hover{
+.deleteItem:hover {
   background-color: #b4b4b4;
   cursor: pointer;
 }
 
-.add:hover{
+.add:hover {
+  cursor: pointer;
+  background-color: #b4b4b4;
+}
+
+.check:hover {
   cursor: pointer;
   background-color: #b4b4b4;
 }

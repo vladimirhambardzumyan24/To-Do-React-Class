@@ -1,18 +1,61 @@
 import React from "react";
+import FormToDo from "./FormToDo";
 import ToDoCart from "./ToDoCart";
 import ToDoClear from "./ToDoClear";
+
+const idGenerator = () => {
+  let id = 0;
+  return () => {
+    id += 1;
+    return id;
+  };
+};
+
+const getRandomId = idGenerator();
 
 class ToDo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      allCheck: false,
       textInput: "",
+
       items: [
-        { id: Math.random(), textValue: "Java Script", isChecked: false },
-        { id: Math.random(), textValue: "Node JS", isChecked: false },
-        { id: Math.random(), textValue: "React", isChecked: false },
-        { id: Math.random(), textValue: "Angular", isChecked: false },
-        { id: Math.random(), textValue: "Vue JS", isChecked: false },
+        {
+          id: getRandomId(),
+          removeText: "hideRemove",
+          textValue: "Java Script",
+          inpText:"inpTextShow",
+          isChecked: false,
+        },
+        {
+          id: getRandomId(),
+          removeText: "hideRemove",
+          textValue: "Node JS",
+          inpText:"inpTextShow",
+          isChecked: false,
+        },
+        {
+          id: getRandomId(),
+          removeText: "hideRemove",
+          textValue: "React",
+          inpText:"inpTextShow",
+          isChecked: false,
+        },
+        {
+          id: getRandomId(),
+          removeText: "hideRemove",
+          textValue: "Angular",
+          inpText:"inpTextShow",
+          isChecked: false,
+        },
+        {
+          id: getRandomId(),
+          removeText: "hideRemove",
+          textValue: "Vue JS",
+          inpText:"inpTextShow",
+          isChecked: false,
+        },
       ],
     };
   }
@@ -27,14 +70,16 @@ class ToDo extends React.Component {
         items: [
           ...pastState.items,
           {
-            id: Math.random(),
+            id: getRandomId(),
+            removeText: "hideRemove",
             textValue: pastState.textInput,
+            inpText:"inpTextShow",
             isChecked: false,
           },
         ],
       }));
     }
-    this.setState({textInput:""})
+    this.setState({ textInput: "" });
   };
 
   handleDelete = (item) => {
@@ -60,27 +105,113 @@ class ToDo extends React.Component {
         (pastState.items = pastState.items.filter((item) => !item.isChecked))
     );
   };
+
+  handelCheckedAll = () => {
+    this.setState((pastState) => ({
+      allCheck: true,
+      items: pastState.items.map((item) => {
+        return {
+          id: item.id,
+          removeText: "hideRemove",
+          textValue: item.textValue,
+          inpText:"inpTextShow",
+          isChecked: true,
+        };
+      }),
+    }));
+  };
+
+  handelCheckedAllTrue = () => {
+    this.setState((pastState) => ({
+      allCheck: false,
+      items: pastState.items.map((item) => {
+        return {
+          id: item.id,
+          removeText: "hideRemove",
+          textValue: item.textValue,
+          inpText:"inpTextShow",
+          isChecked: false,
+        };
+      }),
+    }));
+  };
+
+  handleShowRemove = (item) => {
+    this.setState((pastState) => ({
+      items: pastState.items.map((elm) => {
+        if (elm.id === item.id) {
+          return {
+            id: elm.id,
+            removeText: "showRemove",
+            textValue: item.textValue,
+            inpText:"inpTextHidden",
+            isChecked: false,
+          };
+        }
+        return elm;
+      }),
+    }));
+  };
+
+  onChangeToDo=(newToDo)=>{
+    this.setState((pastState) => ({
+      items: pastState.items.map((elm) => {
+        if (elm.id === newToDo.id) {
+          return {
+            id: newToDo.id,
+            removeText: "showRemove",
+            textValue: newToDo.textValue,
+            inpText:"inpTextHidden",
+            isChecked: false,
+          };
+        }
+        return elm;
+      }),
+    }));
+  }
+
+  onClickHide=(item)=>{
+    this.setState((pastState) => ({
+      items: pastState.items.map((elm) => {
+        if (elm.id === item.id) {
+          return {
+            id: elm.id,
+            removeText: "hideRemove",
+            textValue: item.textValue,
+            inpText:"inpTextShow",
+            isChecked: false,
+          };
+        }
+        return elm;
+      }),
+    }));
+  }
+
   render() {
     return (
       <div className="container">
         <span className="todo">To Do</span>
-        <form onSubmit={this.handleAdd}>
-          <input
-            className="input"
-            type="text"
-            value={this.state.textInput}
-            onChange={this.handleGiv}
-          />
-          <input className="add" type="submit" value="ADD" />
-        </form>
+        <FormToDo
+          onSubmit={this.handleAdd}
+          value={this.state.textInput}
+          onChange={this.handleGiv}
+        />
         <ToDoCart
           items={this.state.items}
           handleDelete={this.handleDelete}
           onChange={this.handleDelChecked}
+          onDoubleClick={this.handleShowRemove}
+          onChangeToDo={this.onChangeToDo}
+          onClickHide={this.onClickHide}
         />
         <ToDoClear
           items={this.state.items}
           onCheckedClear={this.handleCheckedClear}
+          handelCheckedAll={
+            !this.state.allCheck
+              ? this.handelCheckedAll
+              : this.handelCheckedAllTrue
+          }
         />
       </div>
     );
