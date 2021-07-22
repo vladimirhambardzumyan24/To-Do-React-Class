@@ -1,3 +1,5 @@
+import { array, func } from "prop-types";
+
 export default function ToDoClear({
   items,
   onCheckedClear,
@@ -18,3 +20,10 @@ export default function ToDoClear({
     </div>
   );
 }
+
+
+ToDoClear.propTypes = {
+  items: array.isRequired,
+  onCheckedClear: func.isRequired,
+  handelCheckedAll:func.isRequired,
+};

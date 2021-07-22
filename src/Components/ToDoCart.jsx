@@ -1,3 +1,4 @@
+import { array, func } from "prop-types";
 
 export default function ToDoCart({
   items,
@@ -7,7 +8,6 @@ export default function ToDoCart({
   onChangeToDo,
   onClickHide,
 }) {
-
   return items.map((item) => (
     <div key={item.id} className="itemTodo">
       <input
@@ -22,7 +22,7 @@ export default function ToDoCart({
         }}
       />
       <input
-        className={item.removeText+" changeInput"}
+        className={item.removeText + " changeInput"}
         type="text"
         defaultValue={item.textValue}
         onChange={(e) => {
@@ -30,7 +30,7 @@ export default function ToDoCart({
         }}
       />
       <button
-        className={item.removeText+" changBtn"}
+        className={item.removeText + " changBtn"}
         onClick={() => {
           onClickHide(item);
         }}
@@ -38,7 +38,7 @@ export default function ToDoCart({
         Change
       </button>
       <span
-      className={item.inpText}
+        className={item.inpText}
         onDoubleClick={() => {
           onDoubleClick(item);
         }}
@@ -56,3 +56,11 @@ export default function ToDoCart({
     </div>
   ));
 }
+
+ToDoCart.propTypes = {
+  items: array.isRequired,
+  onChange: func.isRequired,
+  onDoubleClick: func.isRequired,
+  onChangeToDo: func.isRequired,
+  onClickHide: func.isRequired,
+};
