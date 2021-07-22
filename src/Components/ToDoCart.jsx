@@ -7,6 +7,7 @@ export default function ToDoCart({
   onChangeToDo,
   onClickHide,
 }) {
+
   return items.map((item) => (
     <div key={item.id} className="itemTodo">
       <input

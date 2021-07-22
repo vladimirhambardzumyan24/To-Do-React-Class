@@ -111,6 +111,19 @@
 .inpTextHidden {
   display: none;
 }
+
+.checkCompleted{
+  margin-top: -30px;
+  margin-left: 190px;
+  margin-bottom: 10px;
+}
+
+.changButtons{
+  border: 1px solid rgb(187, 186, 186);
+  background-color: rgb(238, 228, 228);
+  height: 25px;
+}
+
 .itemTodo:hover {
   background-color: rgb(219, 216, 216);
 }
@@ -131,6 +144,11 @@
 }
 
 .check:hover {
+  cursor: pointer;
+  background-color: #b4b4b4;
+}
+
+.changButtons:hover{
   cursor: pointer;
   background-color: #b4b4b4;
 }

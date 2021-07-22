@@ -4,17 +4,23 @@ import ToDoCart from "./ToDoCart";
 import ToDoClear from "./ToDoClear";
 import ToDoSave from "../helper/LocalStorage";
 import { getToDo } from "../helper/LocalStorage";
+import Button from "./Button";
 
 const idGenerator = () => {
   let id = 0;
   return () => {
-    id += 1;
+    id += 1 + Math.random();
     return id;
   };
 };
 
 const getRandomId = idGenerator();
 
+const FilterStatuses = {
+  completed: "COMPLETED",
+  all: "ALL",
+  active: "ACTIVE",
+};
 class ToDo extends React.Component {
   constructor(props) {
     super(props);
@@ -22,6 +28,7 @@ class ToDo extends React.Component {
       allCheck: false,
       textInput: "",
       items: getToDo() === null ? [] : getToDo(),
+      filterStatus: FilterStatuses.all,
     };
   }
   handleGiv = (event) => {
@@ -156,7 +163,21 @@ class ToDo extends React.Component {
     }));
   };
 
+  selectFilter = (filterStatus) => () => {
+    this.setState({
+      filterStatus,
+    });
+  };
   render() {
+    const { filterStatus, items } = this.state;
+
+    const filteredTodos =
+      filterStatus === FilterStatuses.all
+        ? items
+        : filterStatus === FilterStatuses.active
+        ? items.filter((t) => !t.isChecked)
+        : items.filter((t) => t.isChecked);
+
     return (
       <div className="container">
         <span className="todo">To Do</span>
@@ -166,7 +187,7 @@ class ToDo extends React.Component {
           onChange={this.handleGiv}
         />
         <ToDoCart
-          items={this.state.items}
+          items={filteredTodos}
           handleDelete={this.handleDelete}
           onChange={this.handleDelChecked}
           onDoubleClick={this.handleShowRemove}
@@ -182,6 +203,15 @@ class ToDo extends React.Component {
               : this.handelCheckedAllTrue
           }
         />
+        <div className="checkCompleted">
+          {Object.entries(FilterStatuses).map(([, value]) => (
+            <Button
+              onClick={this.selectFilter(value)}
+              text={value}
+              key={Math.random()}
+            />
+          ))}
+        </div>
       </div>
     );
   }
